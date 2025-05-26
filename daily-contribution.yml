@@ -1,0 +1,45 @@
+name: Daily Contributions
+
+on:
+  schedule:
+    - cron: '0 0 * * 1-5'  # Runs Mon–Fri at 00:00 UTC
+  workflow_dispatch:        # Allows manual trigger too
+
+jobs:
+  make-contribution:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Make daily contribution
+        run: |
+          echo "Daily update - $(date)" >> README.md
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v7
+        with:
+          author_name: "Your Name"
+          author_email: "you@example.com"
+          message: "Daily contribution: $(date '+%Y-%m-%d')"
+          add: "README.md"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: daily-contribution
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          title: "Daily Contribution"
+          commit-message: "Auto daily contribution"
+          branch: daily-contribution
+          base: main
+          body: |
+            This PR was auto-generated to make a daily contribution.
+          token: ${{ secrets.GITHUB_TOKEN }}
