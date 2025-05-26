@@ -22,8 +22,8 @@ jobs:
       - name: Commit changes
         uses: EndBug/add-and-commit@v7
         with:
-          author_name: "Your Name"
-          author_email: "you@example.com"
+          author_name: "Dustin Abhishek"
+          author_email: "dustiabhishek73235@gmail.com"
           message: "Daily contribution: $(date '+%Y-%m-%d')"
           add: "README.md"
 
